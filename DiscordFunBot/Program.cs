@@ -33,7 +33,7 @@ namespace DiscordBot
 
 
 
-            string token = "MzQzODI0ODgzMTc3ODgxNjAw.DGj34w.eEUYp_1zTImHv1eY6GJRbZNO6h8"; // Remember to keep this private!
+            string token = ""; // Remember to keep this private!
             await _client.LoginAsync(TokenType.Bot, token);
             await _client.StartAsync();
 
