@@ -3,6 +3,7 @@ using Discord.WebSocket;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.Remoting.Messaging;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -10,7 +11,7 @@ namespace DiscordBot
 {
     public class Program
     {
-
+        
         private DiscordSocketClient _client;
 
         public static void Main(string[] args)
@@ -20,17 +21,24 @@ namespace DiscordBot
         {
             _client = new DiscordSocketClient();
 
+            
 
             _client.Log += Log;
 
             _client.MessageReceived += MessageReceived;
 
-     
+            _client.UserJoined += UserJoined;
+
+            _client.UserIsTyping += UserIsTyping;
+
 
 
             string token = "MzQzODI0ODgzMTc3ODgxNjAw.DGj34w.eEUYp_1zTImHv1eY6GJRbZNO6h8"; // Remember to keep this private!
             await _client.LoginAsync(TokenType.Bot, token);
             await _client.StartAsync();
+
+            
+
 
             // Block this task until the program is closed.
             await Task.Delay(-1);
@@ -43,6 +51,20 @@ namespace DiscordBot
                 await message.Channel.SendMessageAsync("Kermit ciota");
             }
         }
+
+        private async Task UserIsTyping(SocketUser u, ISocketMessageChannel m)
+        {
+            string username = u.Username;
+            await m.SendMessageAsync("co tam piszesz " + username + "?");
+        }
+
+        private async Task UserJoined(SocketGuildUser u)
+        {
+            string username = u.Username;
+            await u.SendMessageAsync("Elo " + username);
+
+        }
+
 
 
         private Task Log(LogMessage msg)
